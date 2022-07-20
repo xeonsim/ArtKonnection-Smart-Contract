@@ -1,1 +1,1 @@
-# Decent-Contract
+# ArtKonnection-Contract
