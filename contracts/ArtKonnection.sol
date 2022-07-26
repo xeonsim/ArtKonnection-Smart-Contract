@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: MIT
-// File: contracts\KIP17Kbirdz.sol
 
 import "./KIP17Metadata.sol";
 import "./ownership/Ownable.sol";
