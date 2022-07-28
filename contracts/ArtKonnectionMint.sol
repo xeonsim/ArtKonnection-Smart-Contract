@@ -40,7 +40,7 @@ contract ArtKonnectionMint is  ArtKonnection {
         return tokenIdToBe;
     }
 
-    function publicMint(uint256 requestedCount, uint256 _projectId) external payable {
+    function publicMint(uint256 requestedCount, uint256 _projectId) external payable onlyUnlocked(_projectId){
         require(projects[_projectId].active, "The public sale is not enabled!");
         require(_lastCallBlockNumber[msg.sender].add(_antibotInterval) < block.number, "Bot is not allowed");
         require(block.number >= projects[_projectId].mintStartBlockNumber, "Not yet started");
@@ -83,7 +83,7 @@ contract ArtKonnectionMint is  ArtKonnection {
         projects[_projectId].WhitelistMintEnabled = !projects[_projectId].WhitelistMintEnabled;
     }
 
-    function whitelistMint(uint256 requestedCount, uint256 _projectId) external payable {
+    function whitelistMint(uint256 requestedCount, uint256 _projectId) external payable onlyUnlocked(_projectId) {
         require(projects[_projectId].WhitelistMintEnabled, "The whitelist sale is not enabled!");
         require(msg.value == projectIdToWhitelistPricePerTokenInPeb[_projectId].mul(requestedCount), "Not enough Klay");
         require(whitelistAddress[msg.sender],"sender is not on Whitelist");
@@ -100,7 +100,7 @@ contract ArtKonnectionMint is  ArtKonnection {
     }
 
     //Airdrop Mint
-    function airDropMint(address user, uint256 requestedCount, uint256 _projectId) external onlyOwner {
+    function airDropMint(address user, uint256 requestedCount, uint256 _projectId) external onlyOwner onlyUnlocked(_projectId){
         require(requestedCount > 0, "zero request");
         for(uint256 i = 0; i < requestedCount; i++) {
             _mintToken(user, _projectId );
