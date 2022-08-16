@@ -1356,7 +1356,7 @@ contract ArtKonnectionMint is  ArtKonnection {
       mintStartBlockNumber=projects[_projectId].mintStartBlockNumber;
     }
 
-    function _mintToken(address _to, uint256 _projectId) internal returns (uint256 _tokenId) {
+    function _mintToken(address _to, uint256 _projectId) internal {
 
         uint256 tokenIdToBe = (_projectId * ONE_MILLION) + projects[_projectId].invocations;
 
@@ -1368,8 +1368,6 @@ contract ArtKonnectionMint is  ArtKonnection {
         projectIdToTokenIds[_projectId].push(tokenIdToBe);
 
         emit Mint(_to, tokenIdToBe, _projectId);
-
-        return tokenIdToBe;
     }
 
     function publicMint(uint256 requestedCount, uint256 _projectId) external payable onlyUnlocked(_projectId){
