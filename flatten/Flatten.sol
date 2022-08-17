@@ -1323,13 +1323,11 @@ contract ArtKonnection is KIP17Metadata, Ownable {
         return _tokensOfOwner(owner);
     }
 
-    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) public view  returns (address, uint256) {
-
-        uint256 projectRoyaltyPercentage = projectIdToSecondaryMarketRoyaltyPercentage[tokenIdToProjectId[_tokenId]];
-
-        uint256 royaltyAmount = (_salePrice * projectRoyaltyPercentage / 100);
-
-        return (projectIdToArtistAddress[tokenIdToProjectId[_tokenId]], royaltyAmount);
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
+        external
+        view onlyValidTokenId(_tokenId)
+        returns (address receiver, uint256 royaltyAmount) {
+        return (projectIdToArtistAddress[tokenIdToProjectId[_tokenId]], (_salePrice * projectIdToSecondaryMarketRoyaltyPercentage[tokenIdToProjectId[_tokenId]] / 100));
     }
 
 }
